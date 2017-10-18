@@ -4,24 +4,45 @@ import re
 def calculate(expression):
     if type(expression) is str:
         terms = exSplit(expression)
+        # u = exSplit(expression)
+        # terms = u[0::2]
     else:
         terms = [expression]
     r = []
-    for x in range(0, terms.__len__()):
-        r.append(derivative(terms[x]))
-    return r
+    while terms.__len__() > 0:
+        i = terms.pop(0)
+        if i == "+":
+            r.append(i)
+        elif i == "-":
+            r.append(i)
+        elif i in trigoperations:
+            l = terms.index(")")
+            s = i
+            for x in range(0, l):
+                s += terms.pop(0)
+            r.append(chainrule(s))
+        elif i == ")":
+            pass
+        else:
+            r.append(derivative(i))
+    return "".join(r)
 
 
 def exSplit(ex):
-    delimiters = "+", "-", "*", "/"
+    delimiters = "+", "-", "*", "/", "(", ")"
     regex_pattern = '|'.join(map(re.escape, delimiters))
-    split_ex = re.split(regex_pattern, ex)
+    iterms = re.split(regex_pattern, ex)
+    operations = re.findall(regex_pattern, ex)
+    split_ex = [None] * (len(operations) + len(iterms))
+    split_ex[::2] = iterms
+    split_ex[1::2] = operations
+    split_ex = [x for x in split_ex if x]
     print("split_ex: ", split_ex)
     return split_ex
 
 
-def expressionString(val):
-    return " + ".join(val)
+def expressionstring(val):
+    return "+".join(val)
 
 
 def derivative(term):
@@ -47,28 +68,29 @@ def derivative(term):
         return "0"
 
 
-def chainRule(term):
+def chainrule(term):
     print("")
     print("term: ", term)
     termsin = trigoperations
-    termsout = ["cos(x)", "(-sin(x))", "sec(x)^2", "sec(x) * tan(x)", "(-csc(x) * cot(x))", "csc(x)^2"]
-    ex = term.split("(")[0]
+    termsout = ["cos(x)", "(-sin(x))", "sec(x)^2", "sec(x)*tan(x)", "(-csc(x)*cot(x))", "csc(x)^2"]
+    outer = term.split("(")[0]
     inner = term.split("(")[1].split(")")[0]
     print("inner: ", inner)
-    if ex in termsin:
-        print("termout: ", termsout[termsin.index(ex)])
-        newterm = termsout[termsin.index(ex)].replace("x", inner)
-        newterm += " * (" + " + ".join(calculate(inner)) + ")"
+    if outer in termsin:
+        print("termout: ", termsout[termsin.index(outer)])
+        newterm = termsout[termsin.index(outer)].replace("x", inner)
+        newterm += "*(" + "".join(calculate(inner)) + ")"
         return newterm
 
 
 trigoperations = ["sin", "cos", "tan", "sec", "csc", "cot"]
-inputs = ["3x^5+7x^4-5x^3*2x^2/8x+6", "sec(3x^3 + 5x^2)"]
+inputs = ["3x^5+7x^4-5x^3+2x^2+8x-6", "sec(3x^3+5x^2)", "cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x"]
+# inputs = ["sec(3x^3+5x^2)"]
 outputs = []
 # fin = input("Equation to Compute: ")
 # calculate(fin)
 for i in range(0, inputs.__len__()):
-    outputs.append(calculate(inputs[i]))
+    outputs.append((calculate(inputs[i])))
 
 print("")
 print("Outputs")
