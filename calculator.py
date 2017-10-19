@@ -93,9 +93,10 @@ def chainrule(term):
             return newterm
     elif ')^' in term:
         t = term.rsplit(')^', 1)
-        newterm = str(int(t[1]) - 1)
-        newterm += '*('
-        newterm += calculate(t[0])
+        newterm = str(int(t[1]))+'*('+str(t[0])+')'
+        if not int(t[1]) - 1==1:
+            newterm+='^'+str(int(t[1]) - 1)
+        newterm += '+'+calculate(t[0])
         return newterm
     else:
         # TODO: Add the ability to interpret parentheses not raised to a power
@@ -103,8 +104,8 @@ def chainrule(term):
 
 
 trigoperations = ['sin', 'cos', 'tan', 'sec', 'csc', 'cot']
-# inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x']
-inputs = ['(5x^3+7x^2)^4']
+inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x', '(5x^3+7x^2)^4', '(5x^3+7x^2)^4+(25x^16-34x^7+2)^2']
+# inputs = ['(5x^3+7x^2)^4']
 outputs = []
 # fin = input('Equation to Compute: ')
 # calculate(fin)
