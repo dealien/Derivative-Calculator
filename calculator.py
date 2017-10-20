@@ -99,7 +99,7 @@ def chainrule(term):
         newterm += '+'+calculate(t[0])
         return newterm
     else:
-        # TODO: Add the ability to interpret parentheses not raised to a power
+        # TODO: Add the ability to interpret parentheses not raised to a power, which most likely requires quotient rule functionality
         return '0'
 
 
