@@ -76,6 +76,21 @@ def derivative(term):
         return '0'
 
 
+def matchindex(term):
+    c = -1
+    level = 0
+    while True:
+        c += 1
+        if str(term[c]) == ")" and level == 1:
+            return c
+        elif str(term[c]) == "(":
+            level += 1
+        elif str(term[c]) == ")" and level > 1:
+            level -= 1
+        else:
+            pass
+
+
 def chainrule(term):
     print()
     print('Running chainrule()')
@@ -92,7 +107,9 @@ def chainrule(term):
             newterm += '*(' + ''.join(calculate(inner)) + ')'
             return newterm
     elif ')^' in term:
-        t = term.rsplit(')^', 1)
+        pindex = matchindex(term)
+        t = [term[:pindex+1,term[pindex+2:]]]
+        # t = term.rsplit(')^', 1) # TODO: Separate at matching parenthesis by finding the nth ")" after n "("
         newterm = str(int(t[1])) + '*(' + str(t[0]) + ')'
         if not int(t[1]) - 1 == 1:
             newterm += '^' + str(int(t[1]) - 1)
@@ -104,9 +121,9 @@ def chainrule(term):
 
 
 trigoperations = ['sin', 'cos', 'tan', 'sec', 'csc', 'cot']
-inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x', '(5x^3+7x^2)^4',
-          '(5x^3+7x^2)^4+(25x^16-34x^7+2)^2']
-# inputs = ['(5x^3+7x^2)^4']
+# inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x', '(5x^3+7x^2)^4',
+#           '(5x^3+7x^2)^4+(25x^16-34x^7+2)^2','(5x^3+7x^2+(2x^5+3x^3)^7)^4']
+inputs = ['(5x^3+7x^2)^4']
 outputs = []
 # fin = input('Equation to Compute: ')
 # calculate(fin)
