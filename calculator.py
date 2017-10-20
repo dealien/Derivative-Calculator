@@ -25,7 +25,7 @@ def calculate(expression):
         elif i == ')':
             pass
         elif i == '(':
-            l = terms.index(')') + 1
+            l = terms.index(')') + 1 # TODO: Divide at matching parenthesis by finding the nth ")" after n "("
             s = ''
             if len(terms) >= l + 1:
                 if '^' in str(terms[-1:]):
