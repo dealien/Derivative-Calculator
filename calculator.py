@@ -8,33 +8,38 @@ def calculate(expression):
         # terms = u[0::2]
     else:
         terms = [expression]
-    r = []
+    r = ''  # TODO: Change r from a list to a string
     oterms = terms
-    while terms.__len__() > 0:
+    while len(terms) > 0:
         i = terms.pop(0)
         if i == '+':
-            r.append(i)
+            r += i
         elif i == '-':
-            r.append(i)
+            r += i
         elif i in trigoperations:
             l = terms.index(')')
             s = i
             for x in range(0, l):
                 s += terms.pop(0)
-            r.append(chainrule(s))
+            r += chainrule(s)
         elif i == ')':
             pass
         elif i == '(':
-            l = terms.index(')') + 1
-            s = ''
-            if len(terms) >= l + 1:
-                if '^' in str(terms[-1:]):
-                    l += 1
-            for x in range(1, l+1):
-                s += terms.pop(0)
-            r.append(chainrule(s))
+            term = '('
+            term += ''.join(terms)
+            # l = terms.index(')') + 1
+            # s = ''
+            # if len(terms) >= l + 1:
+            #     if '^' in str(terms[-1:]):
+            #         l += 1
+            # for x in range(1, l + 1):
+            #     s += terms.pop(0)
+            r += chainrule(term)
+            ind = matchindex(term)
+            nterms = term[ind:]
+            terms = exSplit(nterms)[2:]
         else:
-            r.append(derivative(i))
+            r += derivative(i)
     return ''.join(r)
 
 
@@ -76,6 +81,21 @@ def derivative(term):
         return '0'
 
 
+def matchindex(term):
+    c = -1
+    level = 0
+    while True:
+        c += 1
+        if str(term[c]) == ")" and level == 1:
+            return c
+        elif str(term[c]) == "(":
+            level += 1
+        elif str(term[c]) == ")" and level > 1:
+            level -= 1
+        else:
+            pass
+
+
 def chainrule(term):
     print()
     print('Running chainrule()')
@@ -91,26 +111,33 @@ def chainrule(term):
             newterm = termsout[termsin.index(outer)].replace('x', inner)
             newterm += '*(' + ''.join(calculate(inner)) + ')'
             return newterm
-    elif ')^' in term:
-        t = term.rsplit(')^', 1)
-        newterm = str(int(t[1]))+'*('+str(t[0])+')'
-        if not int(t[1]) - 1==1:
-            newterm+='^'+str(int(t[1]) - 1)
-        newterm += '+'+calculate(t[0])
+    elif '(' == term[0]:
+        # TODO: Add the ability to interpret parentheses not raised to a power, which most likely requires quotient rule functionality
+        pindex = matchindex(term) - 1
+        term = term[1:]
+        t = [str(term[:pindex]), str(term[pindex + 2:])]
+        # t = term.rsplit(')^', 1) # TODO: Separate at matching parenthesis by finding the nth ")" after n "("
+        e = t[1]
+        es = exSplit(e)
+        del t[1]
+        t += es[:1]
+        newterm = str(int(t[1])) + '*(' + str(t[0]) + ')'
+        if not int(t[1]) - 1 == 1:
+            newterm += '^' + str(int(t[1]) - 1)
+        newterm += '+' + calculate(t[0])
         return newterm
-    else:
-        # TODO: Add the ability to interpret parentheses not raised to a power
-        return '0'
 
 
 trigoperations = ['sin', 'cos', 'tan', 'sec', 'csc', 'cot']
-inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x', '(5x^3+7x^2)^4', '(5x^3+7x^2)^4+(25x^16-34x^7+2)^2']
-# inputs = ['(5x^3+7x^2)^4']
+inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x', '(5x^3+7x^2)^4',
+          '(5x^3+7x^2)^4+(25x^16-34x^7+2)^2', '(5x^3+7x^2+(2x^5+3x^3)^7)^4',
+          '(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254']
+# inputs = ['(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254']
 outputs = []
 # fin = input('Equation to Compute: ')
 # calculate(fin)
 for i in range(0, inputs.__len__()):
-    outputs.append((calculate(inputs[i])))
+    outputs.append(calculate(str(inputs[i])))
 
 print('')
 print('Outputs')
