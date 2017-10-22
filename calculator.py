@@ -78,6 +78,7 @@ def derivative(term):
         newterm = coef
         return str(newterm)
     else:
+        print('term: ', term)
         return '0'
 
 
@@ -134,14 +135,15 @@ inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3
           '(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254']
 # inputs = ['(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254']
 outputs = []
-# fin = input('Equation to Compute: ')
-# calculate(fin)
-for i in range(0, inputs.__len__()):
-    outputs.append(calculate(str(inputs[i])))
 
-print('')
-print('Outputs')
-for i in range(0, outputs.__len__()):
-    print('')
-    print('input:  ', inputs[i])
-    print('output: ', outputs[i])
+# for i in range(0, inputs.__len__()): # Compute from a preset list of inputs (for debugging purposes)
+#     outputs.append(calculate(str(inputs[i])))
+# print('')
+# print('Outputs')
+# for i in range(0, outputs.__len__()):
+#     print('')
+#     print('input:  ', inputs[i])
+#     print('output: ', outputs[i])
+
+fin = input('Equation to Compute: ')  # Compute from an input expression
+print('Derivative form:', calculate(fin))
