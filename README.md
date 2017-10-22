@@ -6,6 +6,8 @@ This program accepts an input expression and ouitputs the derivative form of tha
 
 `3x^2+7x`
 
+## Trigonometric Functions
+
 ## Sample Expressions
 
 These are some examples of expressions that were used during the creation of this program, and are provided to give a better sense of the types of expressions this program is capable of processing. 
