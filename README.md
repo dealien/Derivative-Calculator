@@ -25,3 +25,5 @@ These are some examples of expressions that were used during the creation of thi
 `(5x^3+7x^2+(2x^5+3x^3)^7)^4`
 
 `(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254`
+
+`tan(2x^2+csc(5x^8-3x^2+5)-12)`
