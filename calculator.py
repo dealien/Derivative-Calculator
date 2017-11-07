@@ -106,7 +106,8 @@ def chainrule(term):
     termsout = ['cos(x)', '(-sin(x))', 'sec(x)^2', 'sec(x)*tan(x)', '(-csc(x)*cot(x))', 'csc(x)^2']
     if term[:3] in termsin:
         outer = term.split('(')[0]
-        inner = term.split('(')[1].split(')')[0] # TODO: Make "inner" respect parentheses (especially for trig functions)
+        inner = term.split('(')[1].split(')')[
+            0]  # TODO: Make "inner" respect parentheses (especially for trig functions)
         print('inner: ', inner)
         if outer in termsin:
             print('termout: ', termsout[termsin.index(outer)])
@@ -131,13 +132,14 @@ def chainrule(term):
 
 
 trigoperations = ['sin', 'cos', 'tan', 'sec', 'csc', 'cot']
-# inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x', '(5x^3+7x^2)^4',
-#           '(5x^3+7x^2)^4+(25x^16-34x^7+2)^2', '(5x^3+7x^2+(2x^5+3x^3)^7)^4',
-#           '(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254']
-inputs = ['tan(2x^2+csc(5x^8-3x^2+5)-12)']
+inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x', '(5x^3+7x^2)^4',
+          '(5x^3+7x^2)^4+(25x^16-34x^7+2)^2', '(5x^3+7x^2+(2x^5+3x^3)^7)^4',
+          '(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254']
+# inputs = ['(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254']
+inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x', '(5x^3+7x^2+(2x^5+3x^3)^7)^4']
 outputs = []
 
-for i in range(0, inputs.__len__()): # Compute from a preset list of inputs (for debugging purposes)
+for i in range(0, inputs.__len__()):  # Compute from a preset list of inputs (for debugging purposes)
     outputs.append(calculate(str(inputs[i])))
 print('')
 print('Outputs')
