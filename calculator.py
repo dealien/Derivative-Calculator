@@ -17,7 +17,8 @@ def calculate(expression):
         elif i == '-':
             r += i
         elif i in trigoperations:
-            l = terms.index(')')
+            # l = terms.index(')')
+            l = len(terms) - 1 - terms[::-1].index(')')
             s = i
             for x in range(0, l):
                 s += terms.pop(0)
@@ -130,20 +131,20 @@ def chainrule(term):
 
 
 trigoperations = ['sin', 'cos', 'tan', 'sec', 'csc', 'cot']
-inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x', '(5x^3+7x^2)^4',
-          '(5x^3+7x^2)^4+(25x^16-34x^7+2)^2', '(5x^3+7x^2+(2x^5+3x^3)^7)^4',
-          '(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254']
-# inputs = ['(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254']
+# inputs = ['3x^5+7x^4-5x^3+2x^2+8x-6', 'sec(3x^3+5x^2)', 'cos(3x^3+5x^2)+cot(3x^3+5x^2)-9x^2+10x', '(5x^3+7x^2)^4',
+#           '(5x^3+7x^2)^4+(25x^16-34x^7+2)^2', '(5x^3+7x^2+(2x^5+3x^3)^7)^4',
+#           '(5x^3+7x^2)^4+9x^6-(23x^93+54x^31-4x^342543)^254']
+inputs = ['tan(2x^2+csc(5x^8-3x^2+5)-12)']
 outputs = []
 
-# for i in range(0, inputs.__len__()): # Compute from a preset list of inputs (for debugging purposes)
-#     outputs.append(calculate(str(inputs[i])))
-# print('')
-# print('Outputs')
-# for i in range(0, outputs.__len__()):
-#     print('')
-#     print('input:  ', inputs[i])
-#     print('output: ', outputs[i])
+for i in range(0, inputs.__len__()): # Compute from a preset list of inputs (for debugging purposes)
+    outputs.append(calculate(str(inputs[i])))
+print('')
+print('Outputs')
+for i in range(0, outputs.__len__()):
+    print('')
+    print('input:  ', inputs[i])
+    print('output: ', outputs[i])
 
-fin = input('Equation to Compute: ')  # Compute from an input expression
-print('Derivative form:', calculate(fin))
+# fin = input('Equation to Compute: ')  # Compute from an input expression
+# print('Derivative form:', calculate(str(fin)))
