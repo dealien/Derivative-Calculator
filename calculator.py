@@ -8,7 +8,7 @@ def calculate(expression):
         # terms = u[0::2]
     else:
         terms = [expression]
-    r = ''  # TODO: Change r from a list to a string
+    r = ''
     oterms = terms
     while len(terms) > 0:
         i = terms.pop(0)
@@ -106,7 +106,7 @@ def chainrule(term):
     termsout = ['cos(x)', '(-sin(x))', 'sec(x)^2', 'sec(x)*tan(x)', '(-csc(x)*cot(x))', 'csc(x)^2']
     if term[:3] in termsin:
         outer = term.split('(')[0]
-        inner = term.split('(')[1].split(')')[0]
+        inner = term.split('(')[1].split(')')[0] # TODO: Make "inner" respect parentheses (especially for trig functions)
         print('inner: ', inner)
         if outer in termsin:
             print('termout: ', termsout[termsin.index(outer)])
